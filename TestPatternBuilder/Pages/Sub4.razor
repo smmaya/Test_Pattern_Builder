@@ -1,0 +1,47 @@
+﻿@page "/Sub4"
+
+@*<div>Browsers:</div>
+    @foreach (var browser in Enum.GetValues<string[]>())
+    {
+        <input type="checkbox" class="form-check-input" @bind-value="@checkedValue">
+        <label class="ms-1">@browser</label>
+        <br />
+    }
+
+    <button class="btn btn-secondary my-3" @onclick="ListBrowsers">Add Browsers</button>*@
+
+
+    @*@code{
+
+        public bool checkedValue { get; set; }
+        public string[] selectedBrowsers { get; set; } = new String[] { };
+
+        public void AddBrowsers(ChangeEventArgs e)
+        {
+            selectedBrowsers = (string[])e.Value!;
+        }
+
+        public void ListBrowsers()
+        {
+            foreach (var item in selectedBrowsers)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        public class BrowsersList
+        {
+            public string[]? BrowserName { get; set; }
+        }
+
+        public enum Browsers
+        {
+            Chrome,
+            Edge,
+            Firefox,
+            Opera,
+            Safari,
+            Vivaldi
+        }
+
+    }*@

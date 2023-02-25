@@ -1,0 +1,86 @@
+﻿@page "/Sub1"
+
+<PageTitle>Sub1</PageTitle>
+
+<h4>Hello, this is a testing test ;) </h4>
+
+<EditForm Model="@someModel" class="d-flex flex-row">
+
+    <div class="m-2 p-2">
+        <div class="p-2" style="background-color: @orderColour;"> Bug</div>
+        <InputRadioGroup @bind-Value="someModel.Bug">
+            <InputRadio Value="Bug.InQA" /> In QA<br>
+            <InputRadio Value="Bug.TestedOnDev" /> Tested on DEV<br>
+        </InputRadioGroup>
+    </div>
+    @if (someModel.Bug == Bug.TestedOnDev)
+    {
+        <div class="m-2 p-2">
+            <div class="p-2" style="background-color: @processColour;"> RC</div>
+            <InputRadioGroup @bind-Value="someModel.RC">
+                <InputRadio Value="RC.InProcess" /> In Process<br>
+                <InputRadio Value="RC.TestedOnRC" /> Tested on RC<br>
+            </InputRadioGroup>
+        </div>
+        @if (someModel.RC == RC.TestedOnRC)
+        {
+            <div class="m-2 p-2">
+                <div class="p-2" style="background-color: @deliveryColour;"> PROD</div>
+                <InputRadioGroup class="form-control" @bind-Value="someModel.Prod">
+                    <InputRadio Value="Prod.Acceptance" /> Acceptance Passed<br>
+                    <InputRadio Value="Prod.Sanity" /> Sanity Passed<br>
+                    <InputRadio Value="Prod.Completed" /> Completed<br>
+                </InputRadioGroup>
+            </div>
+            @if (isComplete)
+            {
+                <h1 class="text-success p-2">
+                    ✔
+                </h1>
+            }
+        }
+    }
+</EditForm>
+
+@code {
+    SomeModel someModel = new SomeModel();
+
+    string orderColour => someModel.Bug switch
+    {
+        Bug.Unkown => "red",
+        Bug.InQA => "orange",
+        Bug.TestedOnDev => "green",
+        _ => "grey"
+    };
+    string processColour => someModel.RC switch
+    {
+        RC.Unkown => "red",
+        RC.InProcess => "orange",
+        RC.TestedOnRC => "green",
+        _ => "grey"
+    };
+    string deliveryColour => someModel.Prod switch
+    {
+        Prod.Unkown => "gray",
+        Prod.Acceptance => "yellow",
+        Prod.Sanity => "orange",
+        Prod.Completed => "green",
+        _ => "grey"
+    };
+    bool isComplete =>
+        someModel.Bug == Bug.TestedOnDev &&
+        someModel.RC == RC.TestedOnRC &&
+        someModel.Prod == Prod.Completed;
+
+
+    public class SomeModel
+    {
+        public Bug Bug { get; set; }
+        public RC RC { get; set; }
+        public Prod Prod { get; set; }
+    }
+
+    public enum Bug { Unkown, InQA, TestedOnDev }
+    public enum RC { Unkown, InProcess, TestedOnRC }
+    public enum Prod { Unkown, Acceptance, Sanity, Completed }
+}

@@ -1,0 +1,163 @@
+﻿@page "/Sub5"
+@using TestPatternBuilder.Data
+
+<PageTitle>Pattern Builder</PageTitle>
+
+<h4>Hello, this is a test pattern builder page.</h4>
+<hr />
+
+<div class="container mt-2 mx-0">
+    <div class="row">
+
+        <div class="col">
+            <div>Browsers:</div>
+            <form>
+                @foreach (var browser in Enum.GetValues<Browsers>())
+                {
+                    <input class="form-check-input mx-0" type="checkbox" id="browsers" value="@browser" />
+                    <label class="ms-1" for="browsers">@browser</label><br />
+                }
+            </form>
+
+            <button class="btn btn-secondary my-3" @onclick="AddBrowsers">Add Browsers</button>
+
+            @*<ul class="mt-2">
+                    @foreach (var br in selectedBrowsers)
+                    {
+                        <li>@br.GetBrowserName()</li>
+                    }
+                </ul>*@
+
+        </div>
+
+        <div class="col">
+            <div>Methods:</div>
+            <form>
+                @foreach (var method in Enum.GetValues<Methods>())
+                {
+                    <input class="form-check-input mx-0" type="checkbox" id="methods" value="@method" />
+                    if (method.GetDisplayName() == "Issue Related")
+                    {
+                        <label class="ms-2" for="methods">@method.GetDisplayName()</label><br />
+                    }
+                    else
+                    {
+                        <label class="ms-2" for="methods">@method</label><br />
+                    }
+                }
+            </form>
+        </div>
+
+        <div class="col">
+            <div>Environments:</div>
+            <form>
+                @foreach (var env in Enum.GetValues<Environments>())
+                {
+                    <input class="form-check-input mx-0" type="checkbox" id="envs" value="@env" />
+                    <label class="ms-1" for="envs">@env</label><br />
+                }
+            </form>
+        </div>
+
+        <div class="col">
+            <div>Components:</div>
+            <form>
+                @foreach (var component in Enum.GetValues<Components>())
+                {
+                    <input class="form-check-input mx-0" type="checkbox" id="components" value="@component" />
+                    if (component.GetDisplayName() == "Middle Layer" || component.GetDisplayName() == "UX/UI")
+                    {
+                        <label class="ms-2" for="components">@component.GetDisplayName()</label><br />
+                    }
+                    else
+                    {
+                        <label class="ms-2" for="components">@component</label><br />
+                    }
+
+                }
+            </form>
+        </div>
+
+        <div class="col">
+            <div>Types:</div>
+            <form>
+                @foreach (var tpe in Enum.GetValues<Types>())
+                {
+                    <input class="form-check-input mx-0" type="checkbox" id="types" value="@tpe" />
+
+                    if (@tpe.GetDisplayName() == "Formatted Date" || @tpe.GetDisplayName() == "Float/Decimal/Double")
+                    {
+                        <label class="ms-2" for="types">@tpe.GetDisplayName()</label><br />
+                    }
+                    else
+                    {
+                        <label class="ms-2" for="types">@tpe</label><br />
+                    }
+                }
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="container mt-5 mx-0">
+    <div class="row m-0">
+        <label>Description:</label>
+        <input class="col mt-1 mb-2 form-control" @bind-value="title" />
+        <span class="col mt-2 mb-2">@title</span>
+    </div>
+
+    <div class="row m-0" style="width:400px">
+        <label>Browser: </label>
+        <InputSelect class="col mt-1 mb-2 form-select" @bind-Value="selectedBrowser">
+            <option value="" selected>Select browsers</option>
+
+            @foreach (var browser in Enum.GetValues<Browsers>())
+            {
+                <option value="@browser">@browser</option>
+            }
+        </InputSelect>
+        <span class="col mt-2">@selectedBrowser</span>
+    </div>
+
+    <button class="btn btn-secondary my-3" @onclick="AddTest">Add test plan</button>
+
+    <ol class="mt-2">
+        @foreach (var test in testPlans)
+        {
+            <li>@test.Description, @test.Browser</li>
+        }
+    </ol>
+</div>
+
+@code {
+
+    private string? title { get; set; }
+    private string? selectedBrowser { get; set; }
+    private string? selected { get; set; }
+
+    //private List<TestBrowser> selectedBrowsers = new();
+    private List<TestPlan> testPlans = new();
+
+    private void AddTest()
+    {
+        if (!string.IsNullOrEmpty(selectedBrowser))
+        {
+            testPlans.Add(new TestPlan { Description = title, Browser = selectedBrowser });
+            title = string.Empty;
+            selectedBrowser = string.Empty;
+        }
+    }
+
+    private void AddBrowsers()
+    {
+        //selectedBrowsers.Add(new TestBrowser { BrowserName = selected } );
+    }
+
+}

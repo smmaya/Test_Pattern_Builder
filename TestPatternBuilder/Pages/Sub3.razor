@@ -1,0 +1,52 @@
+﻿@page "/Sub3"
+
+<div>
+    @foreach (var browser in Enum.GetValues<Browsers>())
+    {
+        <div>
+            <input class="form-check-input mx-0" type="checkbox" id="browsers" value="@(isSelected(browser))" @onchange="() => AddToList(browser)" />
+            <label class="ms-1" for="browsers">@browser</label>
+        </div>
+    }
+
+</div>
+
+<div class="alert alert-info mt-2">
+    @foreach (var browser in Enum.GetValues<Browsers>())
+    {
+        @if (browser == (selectedBrowsers & browser))
+        {
+            <div>
+                @browser
+            </div>
+        }
+    }
+</div>
+
+
+@code {
+    private Browsers selectedBrowsers;
+
+    private bool isSelected(Browsers browser)
+        => (selectedBrowsers & browser) == browser;
+
+    private Task AddToList(Browsers browser)
+    {
+        if ((selectedBrowsers & browser) == browser)
+            selectedBrowsers &= ~browser;
+        else
+            selectedBrowsers = selectedBrowsers | browser;
+
+        return Task.CompletedTask;
+    }
+
+    public enum Browsers
+    {
+        Chrome = 1,
+        Edge = 2,
+        Firefox = 4,
+        Opera = 8,
+        Safari = 16,
+        Vivaldi = 32
+    }
+}
