@@ -33,7 +33,9 @@
                 }
             }
         </select>
-        <div class="row mt-3 mx-1">
+
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select 1 option</span>
             <button class="btn btn-secondary" @onclick="AddMethods">Add method</button>
         </div>
         <ol class="mt-2">
@@ -62,7 +64,8 @@
                 }
             }
         </select>
-        <div class="row mt-3 mx-1">
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select 1 option</span>
             <button class="btn btn-secondary" @onclick="AddComponents">Add component</button>
         </div>
         <ol class="mt-2">
@@ -84,7 +87,8 @@
                 <option class="ms-1">@env</option>
             }
         </select>
-        <div class="row mt-3 mx-1">
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select 1 option</span>
             <button class="btn btn-secondary" @onclick="AddEnvironments">Add environment</button>
         </div>
         <ol class="mt-2">
@@ -106,7 +110,8 @@
                 <option class="ms-1">@browsers</option>
             }
         </select>
-        <div class="row mt-3 mx-1">
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select many</span>
             <button class="btn btn-secondary" @onclick="AddBrowsers">Add browser(s)</button>
         </div>
         <ol class="mt-2">
@@ -135,7 +140,8 @@
                 }
             }
         </select>
-        <div class="row mt-3 mx-1">
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select many</span>
             <button class="btn btn-secondary" @onclick="AddTypes">Add type(s)</button>
         </div>
         <ol class="mt-2">
@@ -149,14 +155,13 @@
         </ol>
     </div>
 
-    <label>Requirement:</label>
-
+    <label>Requirements:</label>
     <div class="d-flex mb-4">
-        <div class="col-10">
+        <div class="col">
             <input class="form-control" @bind-value="requirement" />
         </div>
-        <div class="col-2">
-            <button class="btn btn-secondary ms-4" @onclick="AddRequirement">Add new requirement</button>
+        <div class="col text-nowrap">
+            <button class="btn btn-secondary ms-2" @onclick="AddRequirement">Add new requirement</button>
         </div>
     </div>
 
@@ -164,55 +169,64 @@
 
     <section id="testPattern">
 
-        <div class="mb-3 alert alert-info d-flex justify-content-between" role="alert">
-            <div>
-                Tested on ( <span style="font-weight:bold; color:darkred; text-decoration:underline">
-                    @listOfEnvironments!.FirstOrDefault()
-                </span> ) | <span style="font-weight:bold">@dateString</span>
-                | Astrato-version: <span style="font-weight:bold">@astratoVersion</span> | chart-version: <span style="font-weight:bold">@chartVersion</span>
-            </div>
-            <div>Issue reference: <span style="font-weight:bold">@issueReference</span></div>
-        </div>
-
-        <table class="table table-bordered table-sm text-center mb-3">
-            <thead>
-                <tr style="color:darkred">
-                    <th>Method:</th>
-                    <th>Component:</th>
-                    <th>Environment:</th>
-                </tr>
-            </thead>
+        <table class="table table-bordered table-sm mb-3">
             <tbody>
-                <tr style="font-weight:bold">
+                <tr>
                     <td>
+                        Tested on (<span style="font-weight:bold; color:darkred; text-decoration:underline">
+                            @listOfEnvironments!.FirstOrDefault()
+                        </span>) <span style="font-weight:bold">@dateString</span>
+                    </td>
+                    <td>Astrato-version: <span style="font-weight:bold">@astratoVersion</span></td>
+                    <td>Chart-version: <span style="font-weight:bold">@chartVersion</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-sm mb-3">
+            <tbody>
+                <tr>
+                    <td>
+                        <span>Method: </span>
                         @if (listOfMethods != null)
                         {
-                            @listOfMethods.FirstOrDefault();
+                            @if (listOfMethods.FirstOrDefault() == "Issue Related")
+                            {
+                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault(), @issueReference</span>
+                            }
+                            else
+                            {
+                                <span style="font-weight:bold; color:darkred"> @listOfMethods?.FirstOrDefault()</span>
+                            }
                         }
                     </td>
                     <td>
+                        <span>Component: </span>
                         @if (listOfComponents != null)
                         {
-                            @listOfComponents.FirstOrDefault();
+                            <span style="font-weight:bold; color:darkred">
+                                @listOfComponents.FirstOrDefault()
+                            </span>
                         }
                     </td>
                     <td>
+                        <span>Environment: </span>
                         @if (listOfEnvironments != null)
                         {
-                            @listOfEnvironments.FirstOrDefault();
+                            <span style="font-weight:bold; color:darkred">
+                                @listOfEnvironments.FirstOrDefault()
+                            </span>
                         }
                     </td>
                 </tr>
             </tbody>
-            <tfoot></tfoot>
         </table>
-        <hr style="color: grey; height: 2px" />
 
-        <table class="table table-bordered table-striped table-sm">
+        <table class="table table-bordered table-sm mb-3">
             <thead>
                 <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                    <th style="color:darkred">Requirements:</th>
-                    <th style="width:80px">Status:</th>
+                    <td style="font-weight:bold">Requirements:</td>
+                    <td style="font-weight: bold; width:80px">Status:</td>
                 </tr>
             </thead>
             <tbody>
@@ -224,16 +238,14 @@
                     </tr>
                 }
             </tbody>
-            <tfoot></tfoot>
         </table>
-        <hr style="color: grey; height: 2px" />
 
-        <table class="table table-bordered table-striped table-sm">
+        <table class="table table-bordered table-sm mb-4">
             <thead>
-                <tr style="color:darkred">
-                    <th>Browsers:</th>
-                    <th>Types:</th>
-                    <th></th>
+                <tr>
+                    <td style="font-weight:bold">Browsers:</td>
+                    <td style="font-weight:bold">Types:</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -334,7 +346,6 @@
                     }
                 }
             </tbody>
-            <tfoot></tfoot>
         </table>
     </section>
 
@@ -352,7 +363,7 @@
     int typesLength = Enum.GetValues<Types>().Length;
 
     static DateTime actualDate = DateTime.Now;
-    string dateString = actualDate.ToString("dd MMM yyyy, HH:mm");
+    string dateString = actualDate.ToString("dd-MM-yyyy, HH:mm");
 
     private string? issueReference { get; set; }
     private string? astratoVersion { get; set; }
