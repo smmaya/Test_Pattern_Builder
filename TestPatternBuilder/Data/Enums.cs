@@ -57,5 +57,16 @@ namespace TestPatternBuilder.Data
         Other
     }
 
+    public enum Datasources
+    {
+        Snowflake,
+        [Display(Name = "Google Sheets")]
+        GoogleSheets,
+        PostgreSQL,
+        [Display(Name = "Google BigQuery")]
+        GoogleBigQuery,
+        Dremio
+    }
+
 }
 

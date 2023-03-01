@@ -3,22 +3,64 @@
 
 <div class="row mx-5">
 
-    <div class="d-flex mb-4">
-        <div class="col me-2">
-            <div>Issue reference:</div>
-            <input class="form-control" @bind-value="issueReference" />
-        </div>
-        <div class="col me-2">
-            <div>Astrato version:</div>
-            <input class="form-control" @bind-value="astratoVersion" />
-        </div>
-        <div class="col">
-            <div>Chart version:</div>
-            <input class="form-control" @bind-value="chartVersion" />
+    <div class="col-12 text-center alert alert-warning pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">JIRA</span> ~
+        <hr class="p-0 m-0" />
+        <div class="d-flex">
+            <div class="col me-2">
+                <div>Issue reference:</div>
+                <input class="form-control" @bind-value="issueReference" />
+            </div>
+            <div class="col me-2">
+                <div>Astrato version:</div>
+                <input class="form-control" @bind-value="astratoVersion" />
+            </div>
+            <div class="col">
+                <div>Chart version:</div>
+                <input class="form-control" @bind-value="chartVersion" />
+            </div>
         </div>
     </div>
 
-    <div class="col">
+    <div class="col-12 text-center alert alert-secondary pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">ZEPHYR SCALE</span> ~
+        <hr class="p-0 m-0" />
+        <div class="d-flex">
+            <div class="col me-2">
+                <div>Regression Test Cycle:</div>
+                <input class="form-control" @bind-value="regressionTestCycle" />
+            </div>
+            <div class="col me-2">
+                <div>Acceptance Test Cycle:</div>
+                <input class="form-control" @bind-value="acceptanceTestCycle" />
+            </div>
+            <div class="col">
+                <div>Sanity Test Cycle:</div>
+                <input class="form-control" @bind-value="sanityTestCycle" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 text-center alert alert-info pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">Devtools</span> ~
+        <hr class="p-0 m-0" />
+        <div class="d-flex">
+            <div class="col me-2">
+                <div>repoSha:</div>
+                <input class="form-control" @bind-value="repoSha" />
+            </div>
+            <div class="col me-2">
+                <div>repoTag:</div>
+                <input class="form-control" @bind-value="repoTag" />
+            </div>
+            <div class="col">
+                <div>x-correlation:</div>
+                <input class="form-control" @bind-value="xCorrelation" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-3">
         <div>Methods: (<label>@methodsLength</label>)</div>
         <select class="form-select" @onchange="SelectedMethodsChanged" multiple size="6">
             @foreach (var method in Enum.GetValues<Methods>())
@@ -155,30 +197,97 @@
         </ol>
     </div>
 
-    <label>Requirements:</label>
+    <div class="col">
+        <div>Datasources: (<label>@datasourcesLength</label>)</div>
+        <select class="form-select" @onchange="SelectedDatasourcesChanged" multiple size="6">
+            @foreach (var source in Enum.GetValues<Datasources>())
+            {
+                if (@source.GetDisplayName() == "Google Sheets" || @source.GetDisplayName() == "Google BigQuery")
+                {
+                    <option class="ms-1">@source.GetDisplayName()</option>
+                }
+                else
+                {
+                    <option class="ms-1">@source</option>
+                }
+            }
+        </select>
+        <div class="row mx-1">
+            <span class="text-center mb-1" style="color:grey; font-size:xx-small">select 1 option</span>
+            <button class="btn btn-secondary" @onclick="AddDatasources">Add datasource(s)</button>
+        </div>
+        <ol class="mt-2">
+            @if (SelectedDatasources != null)
+            {
+                @foreach (var source in listOfDatasources!)
+                {
+                    <li>@source</li>
+                }
+            }
+        </ol>
+    </div>
+
     <div class="d-flex mb-4">
-        <div class="col">
+        <div class="col flex-fill">
+            <div>Story/Task requirements:</div>
             <input class="form-control" @bind-value="requirement" />
         </div>
-        <div class="col text-nowrap">
-            <button class="btn btn-secondary ms-2" @onclick="AddRequirement">Add new requirement</button>
+        <div class="col text-nowrap align-self-end">
+            <button class="btn btn-secondary ms-2" @onclick="AddRequirement">Add requirement(s)</button>
+        </div>
+
+        <div class="col flex-fill">
+            <div>Out of scope:</div>
+            <input class="form-control" @bind-value="outOfScope" />
+        </div>
+        <div class="col text-nowrap align-self-end">
+            <button class="btn btn-secondary ms-2" @onclick="AddOutOfScope">Add Out of scope(s)</button>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+        <div class="col me-5 ps-2">
+            @foreach (var req in requirements)
+            {
+                <table class="table table-sm mb-0">
+                    <tbody>
+                        <tr>
+                            <td>@req.Descripton</td>
+                            <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteRequirement(req);})"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+        <div class="col me-4 ps-1">
+            @foreach (var scope in outOfScopeItems)
+            {
+                <table class="table table-sm mb-0">
+                    <tbody>
+                        <tr>
+                            <td>@scope.Descripton</td>
+                            <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteOutOfScope(scope);} )"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 
     <hr style="color: darkred; height: 2px" />
 
-    <section id="testPattern">
+    <section class="alert alert-light" id="testPattern">
 
         <table class="table table-bordered table-sm mb-3">
             <tbody>
                 <tr>
                     <td>
-                        Tested on (<span style="font-weight:bold; color:darkred; text-decoration:underline">
+                        Tested on ( <span style="font-weight:bold; color:darkred; text-decoration:underline">
                             @listOfEnvironments!.FirstOrDefault()
-                        </span>) <span style="font-weight:bold">@dateString</span>
+                        </span> ) <span style="font-weight:bold">@dateString</span>
                     </td>
-                    <td>Astrato-version: <span style="font-weight:bold">@astratoVersion</span></td>
-                    <td>Chart-version: <span style="font-weight:bold">@chartVersion</span></td>
+                    <td>Astrato-release: <span style="font-weight:bold"><span>v</span>@astratoVersion</span></td>
+                    <td>Chart-release: <span style="font-weight:bold"><span>v</span>@chartVersion</span></td>
                 </tr>
             </tbody>
         </table>
@@ -192,7 +301,19 @@
                         {
                             @if (listOfMethods.FirstOrDefault() == "Issue Related")
                             {
-                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault(), @issueReference</span>
+                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault() ( @issueReference )</span>
+                            }
+                            else if (listOfMethods.FirstOrDefault() == "Regression")
+                            {
+                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault() ( @regressionTestCycle )</span>
+                            }
+                            else if (listOfMethods.FirstOrDefault() == "Acceptance")
+                            {
+                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault() ( @acceptanceTestCycle )</span>
+                            }
+                            else if (listOfMethods.FirstOrDefault() == "Sanity")
+                            {
+                                <span style="font-weight:bold; color:darkred">@listOfMethods?.FirstOrDefault() ( @sanityTestCycle )</span>
                             }
                             else
                             {
@@ -210,11 +331,11 @@
                         }
                     </td>
                     <td>
-                        <span>Environment: </span>
-                        @if (listOfEnvironments != null)
+                        <span>Datasource: </span>
+                        @if (listOfDatasources != null)
                         {
                             <span style="font-weight:bold; color:darkred">
-                                @listOfEnvironments.FirstOrDefault()
+                                @listOfDatasources.FirstOrDefault()
                             </span>
                         }
                     </td>
@@ -222,28 +343,31 @@
             </tbody>
         </table>
 
+        @if (requirement != null)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Story/Task Requirements:</td>
+                        <td style="font-weight: bold; width:80px">Status:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var test in requirements)
+                    {
+                        <tr>
+                            <td>@test.Descripton</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
         <table class="table table-bordered table-sm mb-3">
             <thead>
-                <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                    <td style="font-weight:bold">Requirements:</td>
-                    <td style="font-weight: bold; width:80px">Status:</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var test in requirements)
-                {
-                    <tr>
-                        <td>@test.Descripton</td>
-                        <td></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <table class="table table-bordered table-sm mb-4">
-            <thead>
                 <tr>
-                    <td style="font-weight:bold">Browsers:</td>
+                    <td style="font-weight:bold;color:darkred">Browsers:</td>
                     <td style="font-weight:bold">Types:</td>
                     <td></td>
                 </tr>
@@ -347,6 +471,52 @@
                 }
             </tbody>
         </table>
+
+        @if (repoSha != null || repoTag != null || xCorrelation != null)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred;width:30%">Tech Info:</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>repoSha:</td>
+                        <td>@repoSha</td>
+                    </tr>
+                    <tr>
+                        <td>repoTag:</td>
+                        <td>@repoTag</td>
+                    </tr>
+                    <tr>
+                        <td>x-Correlation:</td>
+                        <td>@xCorrelation</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (outOfScope != null)
+        {
+            <table class="table table-bordered table-sm mb-2">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Out of scope:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var scope in outOfScopeItems)
+                    {
+                        <tr>
+                            <td>@scope.Descripton</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
     </section>
 
 </div>
@@ -361,6 +531,7 @@
     int environmentsLength = Enum.GetValues<Environments>().Length;
     int componentsLength = Enum.GetValues<Components>().Length;
     int typesLength = Enum.GetValues<Types>().Length;
+    int datasourcesLength = Enum.GetValues<Datasources>().Length;
 
     static DateTime actualDate = DateTime.Now;
     string dateString = actualDate.ToString("dd-MM-yyyy, HH:mm");
@@ -368,18 +539,26 @@
     private string? issueReference { get; set; }
     private string? astratoVersion { get; set; }
     private string? chartVersion { get; set; }
+    private string? regressionTestCycle { get; set; }
+    private string? acceptanceTestCycle { get; set; }
+    private string? sanityTestCycle { get; set; }
+    private string? repoSha { get; set; }
+    private string? repoTag { get; set; }
+    private string? xCorrelation { get; set; }
 
     public string[]? SelectedBrowsers { get; set; } = new String[] { };
     public string[]? SelectedMethods { get; set; } = new String[] { };
     public string[]? SelectedEnvironments { get; set; } = new String[] { };
     public string[]? SelectedComponents { get; set; } = new String[] { };
     public string[]? SelectedTypes { get; set; } = new String[] { };
+    public string[]? SelectedDatasources { get; set; } = new String[] { };
 
     public string[]? listOfBrowsers { get; set; } = new String[] { };
     public string[]? listOfMethods { get; set; } = new String[] { };
     public string[]? listOfEnvironments { get; set; } = new String[] { };
     public string[]? listOfComponents { get; set; } = new String[] { };
     public string[]? listOfTypes { get; set; } = new String[] { };
+    public string[]? listOfDatasources { get; set; } = new String[] { };
 
     public class Requirement
     {
@@ -396,6 +575,33 @@
             requirements.Add(new Requirement { Descripton = requirement });
             requirement = string.Empty;
         }
+    }
+
+    private void DeleteRequirement(Requirement requirement)
+    {
+        requirements.RemoveAt(requirements.ToList<Requirement>().FindIndex(e => e.Descripton == requirement.Descripton));
+    }
+
+    public class OutOfScope
+    {
+        public string? Descripton { get; set; }
+    }
+
+    private string? outOfScope { get; set; }
+    private List<OutOfScope> outOfScopeItems = new();
+
+    private void AddOutOfScope()
+    {
+        if (!string.IsNullOrEmpty(outOfScope))
+        {
+            outOfScopeItems.Add(new OutOfScope { Descripton = outOfScope });
+            outOfScope = string.Empty;
+        }
+    }
+
+    private void DeleteOutOfScope(OutOfScope scope)
+    {
+        outOfScopeItems.RemoveAt(outOfScopeItems.ToList<OutOfScope>().FindIndex(e => e.Descripton == scope.Descripton));
     }
 
     private void SelectedBrowsersChanged(ChangeEventArgs e)
@@ -423,6 +629,11 @@
         SelectedTypes = (string[]?)e.Value;
     }
 
+    private void SelectedDatasourcesChanged(ChangeEventArgs e)
+    {
+        SelectedDatasources = (string[]?)e.Value;
+    }
+
     public void AddBrowsers()
     {
         foreach (var item in SelectedBrowsers!)
@@ -446,7 +657,7 @@
             listOfEnvironments = SelectedEnvironments;
         }
         actualDate = DateTime.Now;
-        dateString = actualDate.ToString("dd MMM yyyy, HH:mm");
+        dateString = actualDate.ToString("dd-MM-yyyy, HH:mm");
     }
 
     public void AddComponents()
@@ -462,6 +673,14 @@
         foreach (var item in SelectedTypes!)
         {
             listOfTypes = SelectedTypes;
+        }
+    }
+
+    public void AddDatasources()
+    {
+        foreach (var item in SelectedDatasources!)
+        {
+            listOfDatasources = SelectedDatasources;
         }
     }
 
