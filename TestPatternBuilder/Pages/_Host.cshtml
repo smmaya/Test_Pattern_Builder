@@ -32,10 +32,19 @@
 
     <script src="_framework/blazor.server.js"></script>
 
-    <script>
-        function copyToClipboard(testPattern) {
+    <script>function CopyToClipboard(testPattern) {
+            if (window.getSelection) {
+                if (window.getSelection().empty) { // Chrome
+                    window.getSelection().empty();
+                } else if (window.getSelection().removeAllRanges) { // Firefox
+                    window.getSelection().removeAllRanges();
+                }
+            } else if (document.selection) { // IE?
+                document.selection.empty();
+            }
+
             if (document.selection) {
-                var range = document.body.createTextRange(testPattern);
+                var range = document.body.createTextRange();
                 range.moveToElementText(document.getElementById(testPattern));
                 range.select().createTextRange();
                 document.execCommand("copy");
@@ -44,10 +53,9 @@
                 range.selectNode(document.getElementById(testPattern));
                 window.getSelection().addRange(range);
                 document.execCommand("copy");
-                alert("The tables have been copied to clipboard!")
+
             }
-        }
-    </script>
+        }</script>
 </body>
 </html>
 
