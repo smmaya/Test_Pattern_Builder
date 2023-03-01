@@ -33,15 +33,15 @@
     <script src="_framework/blazor.server.js"></script>
 
     <script>
-        function copyToClipboard(containerid) {
+        function copyToClipboard(testPattern) {
             if (document.selection) {
-                var range = document.body.createTextRange();
-                range.moveToElementText(document.getElementById(containerid));
+                var range = document.body.createTextRange(testPattern);
+                range.moveToElementText(document.getElementById(testPattern));
                 range.select().createTextRange();
                 document.execCommand("copy");
             } else if (window.getSelection) {
                 var range = document.createRange();
-                range.selectNode(document.getElementById(containerid));
+                range.selectNode(document.getElementById(testPattern));
                 window.getSelection().addRange(range);
                 document.execCommand("copy");
                 alert("The tables have been copied to clipboard!")

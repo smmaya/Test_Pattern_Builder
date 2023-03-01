@@ -228,51 +228,65 @@
     </div>
 
     <div class="d-flex mb-4">
-        <div class="col flex-fill">
-            <div>Story/Task requirements:</div>
-            <input class="form-control" @bind-value="requirement" />
-        </div>
-        <div class="col text-nowrap align-self-end">
-            <button class="btn btn-secondary ms-2" @onclick="AddRequirement">Add requirement(s)</button>
+
+        <div class="d-flex flex-fill me-4">
+            <div class="col-6 flex-fill">
+                <div>Story/Task requirements:</div>
+                <input class="form-control" @bind-value="requirement" />
+            </div>
+            <div class="col text-nowrap align-self-end">
+                <button class="btn btn-secondary ms-2" @onclick="AddRequirement">Add requirement(s)</button>
+            </div>
         </div>
 
-        <div class="col flex-fill">
-            <div>Out of scope:</div>
-            <input class="form-control" @bind-value="outOfScope" />
+        <div class="d-flex flex-fill ms-4">
+            <div class="col-6 flex-fill">
+                <div>Out of scope:</div>
+                <input class="form-control" @bind-value="outOfScope" />
+            </div>
+            <div class="col text-nowrap align-self-end">
+                <button class="btn btn-secondary ms-2" @onclick="AddOutOfScope">Add Out of scope(s)</button>
+            </div>
         </div>
-        <div class="col text-nowrap align-self-end">
-            <button class="btn btn-secondary ms-2" @onclick="AddOutOfScope">Add Out of scope(s)</button>
-        </div>
+
     </div>
 
-    <div class="d-flex justify-content-between mb-3">
-        <div class="col me-5 ps-2">
-            @foreach (var req in requirements)
-            {
-                <table class="table table-sm mb-0">
-                    <tbody>
-                        <tr>
-                            <td>@req.Descripton</td>
-                            <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteRequirement(req);})"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            }
+    <div class="d-flex flex-fill mb-3">
+
+        <div class="d-flex flex-fill me-4">
+            <div class="col-6 flex-fill">
+                @foreach (var req in requirements)
+                {
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                            <tr>
+                                <td>@req.Descripton</td>
+                                <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteRequirement(req);})"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </div>
         </div>
-        <div class="col me-4 ps-1">
-            @foreach (var scope in outOfScopeItems)
-            {
-                <table class="table table-sm mb-0">
-                    <tbody>
-                        <tr>
-                            <td>@scope.Descripton</td>
-                            <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteOutOfScope(scope);} )"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            }
+
+        <div class="d-flex flex-fill ms-4">
+            <div class="col-6 flex-fill">
+                @foreach (var scope in outOfScopeItems)
+                {
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                            <tr>
+                                <td>@scope.Descripton</td>
+                                <td class="text-center" style="width:30px"><span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteOutOfScope(scope);} )"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </div>
         </div>
+
     </div>
+
 
     <hr style="color: darkred; height: 2px" />
 
@@ -342,27 +356,6 @@
                 </tr>
             </tbody>
         </table>
-
-        @if (requirement != null)
-        {
-            <table class="table table-bordered table-sm mb-3">
-                <thead>
-                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                        <td style="font-weight:bold;color:darkred">Story/Task Requirements:</td>
-                        <td style="font-weight: bold; width:80px">Status:</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var test in requirements)
-                    {
-                        <tr>
-                            <td>@test.Descripton</td>
-                            <td></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
 
         <table class="table table-bordered table-sm mb-3">
             <thead>
@@ -494,6 +487,27 @@
                         <td>x-Correlation:</td>
                         <td>@xCorrelation</td>
                     </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (requirement != null)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Story/Task Requirements:</td>
+                        <td style="font-weight: bold; width:80px">Status:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var test in requirements)
+                    {
+                        <tr>
+                            <td>@test.Descripton</td>
+                            <td></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
