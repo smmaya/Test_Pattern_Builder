@@ -17,4 +17,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Twitter.Bootstrap.Less" Version="3.3.6" />
+  </ItemGroup>
 </Project>

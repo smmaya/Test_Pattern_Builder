@@ -21,7 +21,7 @@ namespace TestPatternBuilder.Data
         Date,
         [Display(Name = "Date (Timestamp)")]
         Date_Timestamp,
-        [Display(Name = "Float/Decimal/Double")]
+        [Display(Name = "Float/Decimal")]
         Float_Double_Decimal,
         String
     }
@@ -65,7 +65,34 @@ namespace TestPatternBuilder.Data
         PostgreSQL,
         [Display(Name = "Google BigQuery")]
         GoogleBigQuery,
-        Dremio
+        Dremio,
+        Databricks,
+        Redshift
+    }
+    
+    [Flags]
+    public enum InternalDependencies
+    {
+        [Display(Name = "Printing")]
+        Printing = 1,
+        [Display(Name = "Embedability")]
+        Embeds = 2,
+        [Display(Name = "View/Preview")]
+        View_Preview = 4,
+        [Display(Name = "Actions")]
+        Actions = 8,
+        [Display(Name = "Roles")]
+        Roles = 16,
+        [Display(Name = "Backward Compatibility")]
+        Backward_Compatibility = 32,
+        [Display(Name = "Demo Assets")]
+        Demo_Assets = 64,
+        [Display(Name = "Access Control")]
+        Access_Control = 128,
+        [Display(Name = "Import/Export")]
+        Import_Export = 256,
+        [Display(Name = "Theming")]
+        Theming = 512,
     }
 
 }

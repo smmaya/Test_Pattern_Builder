@@ -4,42 +4,43 @@
     @foreach (var browser in Enum.GetValues<Browsers>())
     {
         <div>
-            <input class="form-check-input mx-0" type="checkbox" id="browsers" value="@(isSelected(browser))" @onchange="() => AddToList(browser)" />
+            <input class="form-check-input mx-0" type="checkbox" id="browsers" value="@(IsSelected(browser))" @onchange="() => AddToList(browser)" />
             <label class="ms-1" for="browsers">@browser</label>
         </div>
     }
-
 </div>
 
 <div class="alert alert-info mt-2">
     @foreach (var browser in Enum.GetValues<Browsers>())
     {
-        @if (browser == (selectedBrowsers & browser))
+        @if (browser != (_selectedBrowsers & browser))
         {
-            <div>
-                @browser
-            </div>
+            continue;
         }
+        <div>
+            @browser
+        </div>
     }
 </div>
 
 
 @code {
-    private Browsers selectedBrowsers;
+    private Browsers _selectedBrowsers;
 
-    private bool isSelected(Browsers browser)
-        => (selectedBrowsers & browser) == browser;
+    private bool IsSelected(Browsers browser)
+        => (_selectedBrowsers & browser) == browser;
 
     private Task AddToList(Browsers browser)
     {
-        if ((selectedBrowsers & browser) == browser)
-            selectedBrowsers &= ~browser;
+        if ((_selectedBrowsers & browser) == browser)
+            _selectedBrowsers &= ~browser;
         else
-            selectedBrowsers = selectedBrowsers | browser;
+            _selectedBrowsers = _selectedBrowsers | browser;
 
         return Task.CompletedTask;
     }
 
+    [Flags]
     public enum Browsers
     {
         Chrome = 1,
