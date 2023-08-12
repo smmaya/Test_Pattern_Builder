@@ -60,17 +60,6 @@
     </div>
 </div>
 
-@*<div class="row m-0">
-    <label>Method: </label>
-    <InputSelect class="mt-1 mb-2 form-select" @bind-Value="SelectedMethod">
-        <option value="" selected>Select a method</option>
-        @foreach (var method in Enum.GetValues(typeof(Methods)))
-        {
-            <option value="@method">@method</option>
-        }
-    </InputSelect>
-</div>*@
-
 <div class="col mb-3" style="color:grey; font-size:x-small">
     <div>Methods: (<label>@_methodsLength</label>)</div>
     <select class="form-select" style="font-size:small" @onchange="SelectedMethodsChanged" multiple size="@_datasourcesLength">
