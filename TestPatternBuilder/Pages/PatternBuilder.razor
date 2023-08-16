@@ -172,7 +172,7 @@
     <select class="form-select" style="font-size:small" @onchange="SelectedTypesChanged" multiple size="@_datasourcesLength">
         @foreach (var type in Enum.GetValues<Types>())
         {
-            if (@type.GetDisplayName() == "Date" || @type.GetDisplayName() == "Date (Timestamp)" || @type.GetDisplayName() == "Float/Decimal")
+            if (type.GetDisplayName() == "Date" || type.GetDisplayName() == "Date (Timestamp)" || type.GetDisplayName() == "Float/Decimal")
             {
                 <option class="ms-1">@type.GetDisplayName()</option>
             }
@@ -202,7 +202,7 @@
     <select class="form-select" style="font-size:small" @onchange="SelectedDatasourcesChanged" multiple size="@_datasourcesLength">
         @foreach (var source in Enum.GetValues<Datasources>())
         {
-            if (@source.GetDisplayName() == "Google Sheets" || @source.GetDisplayName() == "Google BigQuery")
+            if (source.GetDisplayName() == "Google Sheets" || source.GetDisplayName() == "Google BigQuery")
             {
                 <option class="ms-1">@source.GetDisplayName()</option>
             }
@@ -230,10 +230,10 @@
 <div class="card-title">Possibly affected features, check the ones you tested:</div>
 <div class="card mb-3">
     <div class="col pt-1">
-        @for (int i = 0; i < Enum.GetValues<InternalDependencies>().Length; i += 3)
+        @for (var i = 0; i < Enum.GetValues<InternalDependencies>().Length; i += 3)
         {
             <div class="d-flex">
-                @for (int j = i; j < i + 3 && j < Enum.GetValues<InternalDependencies>().Length; j++)
+                @for (var j = i; j < i + 3 && j < Enum.GetValues<InternalDependencies>().Length; j++)
                 {
                     var dep = Enum.GetValues<InternalDependencies>()[j];
                     <div class="col-4">

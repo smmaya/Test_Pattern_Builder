@@ -1,10 +1,7 @@
-﻿namespace TestPatternBuilder.Data
+﻿namespace TestPatternBuilder.Data;
+
+public class SelectableBrowsers
 {
-    public class SelectableBrowsers
-    {
-        public bool IsChecked { get; set; }
-        public Browsers Browser { get; set; }
-    }
-
+    public bool IsChecked { get; set; }
+    public Browsers Browser { get; set; }
 }
-

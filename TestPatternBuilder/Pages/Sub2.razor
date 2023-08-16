@@ -3,22 +3,22 @@
 
 @foreach (var browser in _browsers)
 {
-    <input @bind="browser.IsChecked" class="form-check-input mx-0" type="checkbox" id="browsers" />
+    <input @bind="browser.IsChecked" class="form-check-input mx-0" type="checkbox" id="browsers"/>
     <label class="ms-1" for="browsers">@browser.Browser</label>
-    <br />
+    <br/>
 }
 
 <button class="btn btn-secondary my-3" @onclick="AddBrowsers">Add Browsers</button>
 <ul class="mt-2">
-        @foreach (var br in selectedBrowsers)
-        {
-            <li>@br.Browser</li>
-        }
-    </ul>
+    @foreach (var br in selectedBrowsers)
+    {
+        <li>@br.Browser</li>
+    }
+</ul>
 
 @code{
-    private List<SelectableBrowsers> _browsers = new List<SelectableBrowsers>();
-    private List<SelectableBrowsers> selectedBrowsers = new List<SelectableBrowsers>();
+    private readonly List<SelectableBrowsers> _browsers = new();
+    private readonly List<SelectableBrowsers> selectedBrowsers = new();
 
     protected override void OnInitialized()
     {
@@ -33,7 +33,7 @@
 
     private void AddBrowsers()
     {
-        foreach (SelectableBrowsers item in _browsers.Where(x => x.IsChecked))
+        foreach (var item in _browsers.Where(x => x.IsChecked))
         {
             selectedBrowsers.Add(new SelectableBrowsers { Browser = item.Browser, IsChecked = true });
             Console.WriteLine(item.Browser);

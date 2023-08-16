@@ -63,15 +63,30 @@
 
     private string? NavMenuCssClassCollapse => navMenuExpanded ? null : "collapse";
 
-    private void ToggleNavMenu() => navMenuExpanded = !navMenuExpanded;
-    private void ToggleSubMenu() => subMenuExpanded = !subMenuExpanded;
+    private void ToggleNavMenu()
+    {
+        navMenuExpanded = !navMenuExpanded;
+    }
 
-    private void CloseNavMenu() => navMenuExpanded = false;
-    private void CloseSubMenu() => subMenuExpanded = false;
+    private void ToggleSubMenu()
+    {
+        subMenuExpanded = !subMenuExpanded;
+    }
+
+    private void CloseNavMenu()
+    {
+        navMenuExpanded = false;
+    }
+
+    private void CloseSubMenu()
+    {
+        subMenuExpanded = false;
+    }
 
     private void CloseEveryMenu()
     {
         CloseSubMenu();
         ToggleNavMenu();
     }
+
 }
