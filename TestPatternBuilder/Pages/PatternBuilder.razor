@@ -545,28 +545,9 @@
         </table>
     }
 
-    @if (OutOfScope != null)
-    {
-        <table class="table table-bordered table-sm mb-3">
-            <thead>
-            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                <td style="font-weight:bold;color:darkred">Out of scope:</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var scope in _outOfScopeItems)
-            {
-                <tr>
-                    <td>@scope.Description</td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-
     @if (_anyDependencySelected)
     {
-        <table class="table table-bordered table-sm mb-0">
+        <table class="table table-bordered table-sm mb-3">
             <thead>
             <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
                 <td style="font-weight:bold;color:darkred">Tested related features:</td>
@@ -588,12 +569,31 @@
             </tbody>
         </table>
     }
+    
+    @if (OutOfScope != null)
+    {
+        <table class="table table-bordered table-sm mb-0">
+            <thead>
+            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                <td style="font-weight:bold;color:darkred">Out of scope:</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var scope in _outOfScopeItems)
+            {
+                <tr>
+                    <td>@scope.Description</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
 
 </section>
 
 </div>
 
-<div class="text-center mb-3">
+<div class="text-center ms-0 mb-3">
     <button class="btn btn-secondary mb-3" onclick="CopyToClipboard('testPattern')">Copy to clipboard</button>
     <div>Now, paste it into your Jira comment. Thank you for using TPB.</div>
 </div>
