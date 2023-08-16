@@ -69,9 +69,7 @@ public enum InternalDependencies
     [Display(Name = "View/Preview")] View_Preview = 4,
     [Display(Name = "Actions")] Actions = 8,
     [Display(Name = "Roles")] Roles = 16,
-
-    [Display(Name = "Backward Compatibility")]
-    Backward_Compatibility = 32,
+    [Display(Name = "Backward Compatibility")] Backward_Compatibility = 32,
     [Display(Name = "Demo Assets")] Demo_Assets = 64,
     [Display(Name = "Access Control")] Access_Control = 128,
     [Display(Name = "Import/Export")] Import_Export = 256,
