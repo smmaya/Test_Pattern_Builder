@@ -10,6 +10,8 @@ COPY ./TestPatternBuilder/bin/Release/net7.0/publish .
 # Expose the port your application listens on
 EXPOSE 80
 
+ENV TZ=Europe/Warsaw
+
 # Define the command to start your application
 ENTRYPOINT ["dotnet", "TestPatternBuilder.dll"]
 
