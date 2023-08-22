@@ -320,22 +320,18 @@
         <tbody>
         <tr>
             <td>
-                Tested on (
-                <span style="font-weight:bold; color:darkred; text-decoration:underline">
-                    @ListOfEnvironments!.FirstOrDefault()
-                </span> ) <span style="font-weight:bold">@_dateString</span>
+                <div style="font-weight:bold; color:darkred">
+                    Tested on ( @ListOfEnvironments!.FirstOrDefault() )
+                </div>
+                <div style="font-weight:bold">@_dateString</div>
             </td>
             <td>
-                Astrato version:
-                <span style="font-weight:bold">
-                    <span></span>@AstratoVersion
-                </span>
+                <div style="font-weight:bold">Astrato version:</div>
+                <div>@AstratoVersion</div>
             </td>
             <td>
-                Charts version:
-                <span style="font-weight:bold">
-                    <span></span>@ChartVersion
-                </span>
+                <div style="font-weight:bold">Charts version:</div>
+                <div>@ChartVersion</div>
             </td>
         </tr>
         </tbody>
@@ -345,45 +341,45 @@
         <tbody>
         <tr>
             <td>
-                <span>Method: </span>
+                <div>Method: </div>
                 @if (ListOfMethods != null)
                 {
                     @switch (ListOfMethods.FirstOrDefault())
                     {
                         case "Issue Related":
-                            <span style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @IssueReference )</span>
+                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @IssueReference )</div>
                             break;
                         case "Regression":
-                            <span style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @RegressionTestCycle )</span>
+                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @RegressionTestCycle )</div>
                             break;
                         case "Acceptance":
-                            <span style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @AcceptanceTestCycle )</span>
+                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @AcceptanceTestCycle )</div>
                             break;
                         case "Sanity":
-                            <span style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @SanityTestCycle )</span>
+                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @SanityTestCycle )</div>
                             break;
                         default:
-                            <span style="font-weight:bold; color:darkred"> @ListOfMethods?.FirstOrDefault()</span>
+                            <div style="font-weight:bold; color:darkred"> @ListOfMethods?.FirstOrDefault()</div>
                             break;
                     }
                 }
             </td>
             <td>
-                <span>Component: </span>
+                <div>Component: </div>
                 @if (ListOfComponents != null)
                 {
-                    <span style="font-weight:bold; color:darkred">
+                    <div style="font-weight:bold; color:darkred">
                         @ListOfComponents.FirstOrDefault()
-                    </span>
+                    </div>
                 }
             </td>
             <td>
-                <span>Datasource: </span>
+                <div>Datasource: </div>
                 @if (ListOfDatasources != null)
                 {
-                    <span style="font-weight:bold; color:darkred">
+                    <div style="font-weight:bold; color:darkred">
                         @ListOfDatasources.FirstOrDefault()
-                    </span>
+                    </div>
                 }
             </td>
         </tr>
