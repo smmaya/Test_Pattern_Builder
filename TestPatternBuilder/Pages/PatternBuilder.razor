@@ -3,589 +3,586 @@
 
 <div class="row mx-5">
 
-<div class="col-12 text-center alert alert-warning pt-0" style="font-weight:bold">
-    ~ <span style="color:darkred">JIRA</span> ~
-    <hr class="p-0 m-0"/>
-    <div class="d-flex">
-        <div class="col me-2">
-            <div>Issue reference:</div>
-            <input class="form-control" @bind-value="IssueReference"/>
-        </div>
-        <div class="col me-2">
-            <div>Astrato version:</div>
-            <input class="form-control" @bind-value="AstratoVersion"/>
-        </div>
-        <div class="col">
-            <div>Chart version:</div>
-            <input class="form-control" @bind-value="ChartVersion"/>
-        </div>
-    </div>
-</div>
-
-<div class="col-12 text-center alert alert-secondary pt-0" style="font-weight:bold">
-    ~ <span style="color:darkred">ZEPHYR SCALE</span> ~
-    <hr class="p-0 m-0"/>
-    <div class="d-flex">
-        <div class="col me-2">
-            <div>Regression Test Cycle:</div>
-            <input class="form-control" @bind-value="RegressionTestCycle"/>
-        </div>
-        <div class="col me-2">
-            <div>Acceptance Test Cycle:</div>
-            <input class="form-control" @bind-value="AcceptanceTestCycle"/>
-        </div>
-        <div class="col">
-            <div>Sanity Test Cycle:</div>
-            <input class="form-control" @bind-value="SanityTestCycle"/>
-        </div>
-    </div>
-</div>
-
-<div class="col-12 text-center alert alert-info pt-0" style="font-weight:bold">
-    ~ <span style="color:darkred">Devtools</span> ~
-    <hr class="p-0 m-0"/>
-    <div class="d-flex">
-        <div class="col me-2">
-            <div>repoSha:</div>
-            <input class="form-control" @bind-value="RepoSha"/>
-        </div>
-        <div class="col me-2">
-            <div>repoTag:</div>
-            <input class="form-control" @bind-value="RepoTag"/>
-        </div>
-        <div class="col">
-            <div>x-correlation:</div>
-            <input class="form-control" @bind-value="XCorrelation"/>
-        </div>
-    </div>
-</div>
-
-<div class="col mb-3" style="color:grey; font-size:x-small">
-    <div>Methods: (<label>@_methodsLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedMethodsChanged" multiple size="@_datasourcesLength">
-        @foreach (var method in Enum.GetValues<Methods>())
-        {
-            if (method.GetDisplayName() == "Issue Related")
-            {
-                <option class="ms-1">@method.GetDisplayName()</option>
-            }
-            else
-            {
-                <option class="ms-1">@method</option>
-            }
-        }
-    </select>
-
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddMethods">Add method</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedMethods != null)
-        {
-            @foreach (var method in ListOfMethods!)
-            {
-                <li>@method</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="col" style="color:grey; font-size:x-small">
-    <div>Components: (<label>@_componentsLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedComponentsChanged" multiple size="@_datasourcesLength">
-        @foreach (var compo in Enum.GetValues<Components>())
-        {
-            if (compo.GetDisplayName() == "Middle Layer" || compo.GetDisplayName() == "UX/UI")
-            {
-                <option class="ms-1">@compo.GetDisplayName()</option>
-            }
-            else
-            {
-                <option class="ms-1">@compo</option>
-            }
-        }
-    </select>
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddComponents">Add component</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedComponents != null)
-        {
-            @foreach (var compo in ListOfComponents!)
-            {
-                <li>@compo</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="col" style="color:grey; font-size:x-small">
-    <div>Environments: (<label>@_environmentsLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedEnvironmentsChanged" multiple size="@_datasourcesLength">
-        @foreach (var env in Enum.GetValues<Environments>())
-        {
-            <option class="ms-1">@env</option>
-        }
-    </select>
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddEnvironments">Add environment</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedEnvironments != null)
-        {
-            @foreach (var env in ListOfEnvironments!)
-            {
-                <li>@env</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="col" style="color:grey; font-size:x-small">
-    <div>Browsers: (<label>@_browsersLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedBrowsersChanged" multiple size="@_datasourcesLength">
-        @foreach (var browsers in Enum.GetValues<Browsers>())
-        {
-            <option class="ms-1">@browsers</option>
-        }
-    </select>
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select many</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddBrowsers">Add browser(s)</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedBrowsers != null)
-        {
-            @foreach (var browser in ListOfBrowsers!)
-            {
-                <li>@browser</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="col" style="color:grey; font-size:x-small">
-    <div>Types: (<label>@_typesLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedTypesChanged" multiple size="@_datasourcesLength">
-        @foreach (var type in Enum.GetValues<Types>())
-        {
-            if (type.GetDisplayName() == "Date" || type.GetDisplayName() == "Date (Timestamp)" || type.GetDisplayName() == "Float/Decimal")
-            {
-                <option class="ms-1">@type.GetDisplayName()</option>
-            }
-            else
-            {
-                <option class="ms-1">@type</option>
-            }
-        }
-    </select>
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select many</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddTypes">Add type(s)</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedTypes != null)
-        {
-            @foreach (var type in ListOfTypes!)
-            {
-                <li>@type</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="col" style="color:grey; font-size:x-small">
-    <div>Datasources: (<label>@_datasourcesLength</label>)</div>
-    <select class="form-select" style="font-size:small" @onchange="SelectedDatasourcesChanged" multiple size="@_datasourcesLength">
-        @foreach (var source in Enum.GetValues<Datasources>())
-        {
-            if (source.GetDisplayName() == "Google Sheets" || source.GetDisplayName() == "Google BigQuery")
-            {
-                <option class="ms-1">@source.GetDisplayName()</option>
-            }
-            else
-            {
-                <option class="ms-1">@source</option>
-            }
-        }
-    </select>
-    <div class="row mx-1">
-        <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
-        <button class="btn btn-secondary" style="font-size:small" @onclick="AddDatasources">Add datasource(s)</button>
-    </div>
-    <ol class="mt-2">
-        @if (SelectedDatasources != null)
-        {
-            @foreach (var source in ListOfDatasources!)
-            {
-                <li>@source</li>
-            }
-        }
-    </ol>
-</div>
-
-<div class="card-title">Possibly affected features, check the ones you tested:</div>
-<div class="card mb-3">
-    <div class="col pt-1">
-        @for (var i = 0; i < Enum.GetValues<InternalDependencies>().Length; i += 3)
-        {
-            <div class="d-flex">
-                @for (var j = i; j < i + 3 && j < Enum.GetValues<InternalDependencies>().Length; j++)
-                {
-                    var dep = Enum.GetValues<InternalDependencies>()[j];
-                    <div class="col-4">
-                        <div class="form-check">
-                            <input class="form-check-input mx-0" type="checkbox" id="deps@(j)" value="@(IsSelected(dep))" @onchange="() => AddToDependencies(dep)"/>
-                            <label class="form-check-label ms-2" for="deps@(j)">@dep.GetDisplayName()</label>
-                        </div>
-                    </div>
-                }
+    <div class="text-center alert alert-warning pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">JIRA</span> ~
+        <hr class="p-0 m-0" />
+        <div class="row">
+            <div class="col-md">
+                <div>Issue reference:</div>
+                <input class="form-control" @bind-value="IssueReference" />
             </div>
-        }
-    </div>
-</div>
-
-<div class="d-flex mb-3">
-
-    <div class="d-flex flex-fill me-4">
-        <div class="col flex-fill align-self-end">
-            <div>Story/Task requirements list:</div>
-            <input class="form-control lh-sm" @bind-value="Requirement"/>
-        </div>
-        <div class="col text-nowrap align-self-end">
-            <button class="btn btn-secondary ms-2" style="font-size:small" @onclick="AddRequirement">Add requirement(s)</button>
+            <div class="col-md">
+                <div>Astrato version:</div>
+                <input class="form-control" @bind-value="AstratoVersion" />
+            </div>
+            <div class="col-md">
+                <div>Chart version:</div>
+                <input class="form-control" @bind-value="ChartVersion" />
+            </div>
         </div>
     </div>
 
-    <div class="d-flex flex-fill ms-4">
-        <div class="col-6 flex-fill align-self-end">
-            <div>Out of scope list:</div>
-            <input class="form-control lh-sm" @bind-value="OutOfScope"/>
-        </div>
-        <div class="col text-nowrap align-self-end">
-            <button class="btn btn-secondary ms-2 align-middle" style="font-size:small" @onclick="AddOutOfScope">Add Out of scope(s)</button>
-        </div>
-    </div>
 
-</div>
-
-<div class="d-flex mb-3">
-
-    <div class="d-flex flex-fill me-5">
-        <div class="col-6 flex-fill">
-            @foreach (var req in _requirements)
-            {
-                <table class="table table-sm mb-0">
-                    <tbody>
-                    <tr>
-                        <td>@req.Description</td>
-                        <td class="text-center" style="width:30px">
-                            <span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteRequirement(req); })"></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            }
+    <div class="text-center alert alert-secondary pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">ZEPHYR SCALE</span> ~
+        <hr class="p-0 m-0" />
+        <div class="row">
+            <div class="col-md">
+                <div>Regression cycle:</div>
+                <input class="form-control" @bind-value="RegressionTestCycle" />
+            </div>
+            <div class="col-md">
+                <div>Acceptance cycle:</div>
+                <input class="form-control" @bind-value="AcceptanceTestCycle" />
+            </div>
+            <div class="col-md">
+                <div>Sanity cycle:</div>
+                <input class="form-control" @bind-value="SanityTestCycle" />
+            </div>
         </div>
     </div>
 
-    <div class="d-flex flex-fill ms-0">
-        <div class="col-6 flex-fill">
-            @foreach (var scope in _outOfScopeItems)
-            {
-                <table class="table table-sm mb-0">
-                    <tbody>
-                    <tr>
-                        <td>@scope.Description</td>
-                        <td class="text-center" style="width:30px">
-                            <span class="bi bi-trash" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteOutOfScope(scope); })"></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            }
+    <div class="text-center alert alert-info pt-0" style="font-weight:bold">
+        ~ <span style="color:darkred">Devtools</span> ~
+        <hr class="p-0 m-0" />
+        <div class="row">
+            <div class="col-md">
+                <div>repoSha:</div>
+                <input class="form-control" @bind-value="RepoSha" />
+            </div>
+            <div class="col-md">
+                <div>repoTag:</div>
+                <input class="form-control" @bind-value="RepoTag" />
+            </div>
+            <div class="col-md">
+                <div>x-correlation:</div>
+                <input class="form-control" @bind-value="XCorrelation" />
+            </div>
         </div>
     </div>
 
-</div>
-
-<hr class="mb-0" style="color: black; height: 5px"/>
-
-<section class="alert alert-light" id="testPattern">
-
-    <table class="table table-bordered table-sm mb-3" style="table-layout: fixed">
-        <tbody>
-        <tr>
-            <td>
-                <div style="font-weight:bold; color:darkred">
-                    Tested on ( @ListOfEnvironments!.FirstOrDefault() )
-                </div>
-                <div style="font-weight:bold">@_dateString</div>
-            </td>
-            <td>
-                <div style="font-weight:bold">Astrato version:</div>
-                <div>@AstratoVersion</div>
-            </td>
-            <td>
-                <div style="font-weight:bold">Charts version:</div>
-                <div>@ChartVersion</div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <table class="table table-bordered table-sm mb-3" style="table-layout: fixed">
-        <tbody>
-        <tr>
-            <td>
-                <div>Method: </div>
-                @if (ListOfMethods != null)
+    <div class="row mx-auto">
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Methods: (<label>@_methodsLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedMethodsChanged" multiple size="@_datasourcesLength">
+                @foreach (var method in Enum.GetValues<Methods>())
                 {
-                    @switch (ListOfMethods.FirstOrDefault())
+                    if (method.GetDisplayName() == "Issue Related")
                     {
-                        case "Issue Related":
-                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @IssueReference )</div>
-                            break;
-                        case "Regression":
-                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @RegressionTestCycle )</div>
-                            break;
-                        case "Acceptance":
-                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @AcceptanceTestCycle )</div>
-                            break;
-                        case "Sanity":
-                            <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @SanityTestCycle )</div>
-                            break;
-                        default:
-                            <div style="font-weight:bold; color:darkred"> @ListOfMethods?.FirstOrDefault()</div>
-                            break;
+                        <option class="ms-1">@method.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option class="ms-1">@method</option>
                     }
                 }
-            </td>
-            <td>
-                <div>Component: </div>
-                @if (ListOfComponents != null)
-                {
-                    <div style="font-weight:bold; color:darkred">
-                        @ListOfComponents.FirstOrDefault()
-                    </div>
-                }
-            </td>
-            <td>
-                <div>Datasource: </div>
-                @if (ListOfDatasources != null)
-                {
-                    <div style="font-weight:bold; color:darkred">
-                        @ListOfDatasources.FirstOrDefault()
-                    </div>
-                }
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </select>
 
-    <table class="table table-bordered table-sm mb-3">
-        <thead>
-        <tr>
-            <td style="font-weight:bold;color:darkred">Browsers:</td>
-            <td style="font-weight:bold">Data types:</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        @if (ListOfBrowsers!.Length == 1)
-        {
-            <tr style="border-top-width:medium; border-top-color:darkgrey">
-                <td style="font-weight:bold">
-                    <div class="d-flex align-items-center">
-                        @switch (SelectedBrowsers)
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddMethods">Add method</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedMethods != null)
+                {
+                    @foreach (var method in ListOfMethods!)
+                    {
+                        <li>@method</li>
+                    }
+                }
+            </ol>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Components: (<label>@_componentsLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedComponentsChanged" multiple size="@_datasourcesLength">
+                @foreach (var compo in Enum.GetValues<Components>())
+                {
+                    if (compo.GetDisplayName() == "Middle Layer" || compo.GetDisplayName() == "UX/UI")
+                    {
+                        <option class="ms-1">@compo.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option class="ms-1">@compo</option>
+                    }
+                }
+            </select>
+
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddComponents">Add component</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedComponents != null)
+                {
+                    @foreach (var compo in ListOfComponents!)
+                    {
+                        <li>@compo</li>
+                    }
+                }
+            </ol>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Environments: (<label>@_environmentsLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedEnvironmentsChanged" multiple size="@_datasourcesLength">
+                @foreach (var env in Enum.GetValues<Environments>())
+                {
+                    <option class="ms-1">@env</option>
+                }
+            </select>
+
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddEnvironments">Add environment</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedEnvironments != null)
+                {
+                    @foreach (var env in ListOfEnvironments!)
+                    {
+                        <li>@env</li>
+                    }
+                }
+            </ol>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Browsers: (<label>@_browsersLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedBrowsersChanged" multiple size="@_datasourcesLength">
+                @foreach (var browsers in Enum.GetValues<Browsers>())
+                {
+                    <option class="ms-1">@browsers</option>
+                }
+            </select>
+
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select many</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddBrowsers">Add browser(s)</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedBrowsers != null)
+                {
+                    @foreach (var browser in ListOfBrowsers!)
+                    {
+                        <li>@browser</li>
+                    }
+                }
+            </ol>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Types: (<label>@_typesLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedTypesChanged" multiple size="@_datasourcesLength">
+                @foreach (var type in Enum.GetValues<Types>())
+                {
+                    if (type.GetDisplayName() == "Date" || type.GetDisplayName() == "Date (Timestamp)" || type.GetDisplayName() == "Float/Decimal")
+                    {
+                        <option class="ms-1">@type.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option class="ms-1">@type</option>
+                    }
+                }
+            </select>
+
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select many</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddTypes">Add type(s)</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedTypes != null)
+                {
+                    @foreach (var type in ListOfTypes!)
+                    {
+                        <li>@type</li>
+                    }
+                }
+            </ol>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-12" style="color:grey; font-size:x-small">
+            <div>Datasources: (<label>@_datasourcesLength</label>)</div>
+            <select class="form-select" style="font-size:small" @onchange="SelectedDatasourcesChanged" multiple size="@_datasourcesLength">
+                @foreach (var source in Enum.GetValues<Datasources>())
+                {
+                    if (source.GetDisplayName() == "Google Sheets" || source.GetDisplayName() == "Google BigQuery")
+                    {
+                        <option class="ms-1">@source.GetDisplayName()</option>
+                    }
+                    else
+                    {
+                        <option class="ms-1">@source</option>
+                    }
+                }
+            </select>
+
+            <div class="row mx-1">
+                <span class="text-center mb-1" style="color:grey; font-size:x-small">select 1 option</span>
+                <button class="btn btn-secondary" style="font-size:small" @onclick="AddDatasources">Add datasource(s)</button>
+            </div>
+
+            <ol class="mt-2">
+                @if (SelectedDatasources != null)
+                {
+                    @foreach (var source in ListOfDatasources!)
+                    {
+                        <li>@source</li>
+                    }
+                }
+            </ol>
+        </div>
+    </div>
+
+    <div class="card-title">Possibly affected features, check the ones you tested:</div>
+    <div class="card mb-3">
+        <div class="row pt-1">
+            @for (var i = 0; i < Enum.GetValues<InternalDependencies>().Length; i += 3)
+            {
+                <div class="col-md-4">
+                    <div class="d-flex flex-wrap">
+                        @for (var j = i; j < i + 3 && j < Enum.GetValues<InternalDependencies>().Length; j++)
                         {
-                            case var _ when ListOfBrowsers.Contains("Chrome"):
-                                <img src="/img/chrome-16.png" style="height:16px" alt="Chrome"/>
-                                break;
-                            case var _ when ListOfBrowsers.Contains("Edge"):
-                                <img src="/img/edge-16.png" style="height:16px" alt="Edge"/>
-                                break;
-                            case var _ when ListOfBrowsers.Contains("Firefox"):
-                                <img src="/img/firefox-16.png" style="height:15px" alt="Firefox"/>
-                                break;
-                            case var _ when ListOfBrowsers.Contains("Opera"):
-                                <img src="/img/opera-16.png" style="height:16px" alt="Opera"/>
-                                break;
-                            case var _ when ListOfBrowsers.Contains("Safari"):
-                                <img src="/img/safari-16.png" style="height:16px" alt="Safari"/>
-                                break;
-                            case var _ when ListOfBrowsers.Contains("Vivaldi"):
-                                <img src="/img/vivaldi-16.png" style="height:16px" alt="Vivaldi"/>
-                                break;
+                            var dep = Enum.GetValues<InternalDependencies>()[j];
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input mx-0" type="checkbox" id="deps@(j)" value="@(IsSelected(dep))" @onchange="() => AddToDependencies(dep)" />
+                                    <label class="form-check-label ms-2" for="deps@(j)">@dep.GetDisplayName()</label>
+                                </div>
+                            </div>
                         }
-                        <div class="ms-2">@ListOfBrowsers.FirstOrDefault()</div>
                     </div>
-                </td>
-                <td></td>
-                <td style="font-weight:bold; width:80px">Status:</td>
-            </tr>
-            @foreach (var types in ListOfTypes!)
-            {
-                <tr>
-                    <td> </td>
-                    <td>@types</td>
-                    <td> </td>
-                </tr>
+                </div>
             }
-        }
-        else
-        {
-            @foreach (var browser in ListOfBrowsers)
-            {
-                <tr style="border-top-width:medium; border-top-color:darkgrey">
-                    <td style="font-weight:bold">
-                        <div class="d-flex align-items-center">
-                            @switch (browser)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div>Story/Task requirements list:</div>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+                <input class="form-control lh-sm" @bind-value="Requirement" />
+                <button class="btn btn-sm btn-secondary ms-2" style="font-size: small;width:200px" @onclick="AddRequirement">Add requirement(s)</button>
+            </div>
+            <div class="col">
+                <ul class="list-group">
+                    @foreach (var req in _requirements)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 border-0">
+                            @req.Description
+                            <span class="bi bi-trash ms-2" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteRequirement(req); })"></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+                <div class="col-lg-6 mb-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div>Out of scope list:</div>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+                <input class="form-control lh-sm" @bind-value="OutOfScope" />
+                <button class="btn btn-sm btn-secondary ms-2" style="font-size: small;width:200px" @onclick="AddOutOfScope">Add scope(s)</button>
+            </div>
+            <div class="col">
+                <ul class="list-group">
+                    @foreach (var scope in _outOfScopeItems)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 border-0">
+                            @scope.Description
+                            <span class="bi bi-trash ms-2" style="cursor:pointer; font-weight:bold; color:red" @onclick="@(() => { DeleteOutOfScope(scope); })"></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="mb-0" style="color: black; height: 5px" />
+
+    <section class="alert alert-light" id="testPattern">
+
+        <table class="table table-bordered table-sm mb-3" style="table-layout: fixed">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="font-weight:bold; color:darkred">
+                            Tested on ( @ListOfEnvironments!.FirstOrDefault() )
+                        </div>
+                        <div style="font-weight:bold">@_dateString</div>
+                    </td>
+                    <td>
+                        <div style="font-weight:bold">Astrato version:</div>
+                        <div>@AstratoVersion</div>
+                    </td>
+                    <td>
+                        <div style="font-weight:bold">Charts version:</div>
+                        <div>@ChartVersion</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-sm mb-3" style="table-layout: fixed">
+            <tbody>
+                <tr>
+                    <td>
+                        <div>Method: </div>
+                        @if (ListOfMethods != null)
+                        {
+                            @switch (ListOfMethods.FirstOrDefault())
                             {
-                                case var _ when browser.Contains("Chrome"):
-                                    <img src="/img/chrome-16.png" style="height:16px" alt="Chrome"/>
+                                case "Issue Related":
+                                    <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @IssueReference )</div>
                                     break;
-                                case var _ when browser.Contains("Edge"):
-                                    <img src="/img/edge-16.png" style="height:16px" alt="Edge"/>
+                                case "Regression":
+                                    <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @RegressionTestCycle )</div>
                                     break;
-                                case var _ when browser.Contains("Firefox"):
-                                    <img src="/img/firefox-16.png" style="height:15px" alt="Firefox"/>
+                                case "Acceptance":
+                                    <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @AcceptanceTestCycle )</div>
                                     break;
-                                case var _ when browser.Contains("Opera"):
-                                    <img src="/img/opera-16.png" style="height:16px" alt="Opera"/>
+                                case "Sanity":
+                                    <div style="font-weight:bold; color:darkred">@ListOfMethods?.FirstOrDefault() ( @SanityTestCycle )</div>
                                     break;
-                                case var _ when browser.Contains("Safari"):
-                                    <img src="/img/safari-16.png" style="height:16px" alt="Safari"/>
-                                    break;
-                                case var _ when browser.Contains("Vivaldi"):
-                                    <img src="/img/vivaldi-16.png" style="height:16px" alt="Vivaldi"/>
+                                default:
+                                    <div style="font-weight:bold; color:darkred"> @ListOfMethods?.FirstOrDefault()</div>
                                     break;
                             }
-                            <div class="ms-2">@browser</div>
-                        </div>
+                        }
                     </td>
-                    <td></td>
-                    <td style="font-weight:bold; width:80px">Status:</td>
+                    <td>
+                        <div>Component: </div>
+                        @if (ListOfComponents != null)
+                        {
+                            <div style="font-weight:bold; color:darkred">
+                                @ListOfComponents.FirstOrDefault()
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        <div>Datasource: </div>
+                        @if (ListOfDatasources != null)
+                        {
+                            <div style="font-weight:bold; color:darkred">
+                                @ListOfDatasources.FirstOrDefault()
+                            </div>
+                        }
+                    </td>
                 </tr>
-                @if (ListOfTypes!.Length == 1)
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-sm mb-3">
+            <thead>
+                <tr>
+                    <td style="font-weight:bold;color:darkred">Browsers:</td>
+                    <td style="font-weight:bold">Data types:</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ListOfBrowsers!.Length == 1)
                 {
-                    <tr>
+                    <tr style="border-top-width:medium; border-top-color:darkgrey">
+                        <td style="font-weight:bold">
+                            <div class="d-flex align-items-center">
+                                @switch (SelectedBrowsers)
+                                {
+                                    case var _ when ListOfBrowsers.Contains("Chrome"):
+                                        <img src="/img/chrome-16.png" style="height:16px" alt="Chrome" />
+                                        break;
+                                    case var _ when ListOfBrowsers.Contains("Edge"):
+                                        <img src="/img/edge-16.png" style="height:16px" alt="Edge" />
+                                        break;
+                                    case var _ when ListOfBrowsers.Contains("Firefox"):
+                                        <img src="/img/firefox-16.png" style="height:15px" alt="Firefox" />
+                                        break;
+                                    case var _ when ListOfBrowsers.Contains("Opera"):
+                                        <img src="/img/opera-16.png" style="height:16px" alt="Opera" />
+                                        break;
+                                    case var _ when ListOfBrowsers.Contains("Safari"):
+                                        <img src="/img/safari-16.png" style="height:16px" alt="Safari" />
+                                        break;
+                                    case var _ when ListOfBrowsers.Contains("Vivaldi"):
+                                        <img src="/img/vivaldi-16.png" style="height:16px" alt="Vivaldi" />
+                                        break;
+                                }
+                                <div class="ms-2">@ListOfBrowsers.FirstOrDefault()</div>
+                            </div>
+                        </td>
                         <td></td>
-                        <td>@ListOfTypes.FirstOrDefault()</td>
-                        <td></td>
+                        <td style="font-weight:bold; width:80px">Status:</td>
                     </tr>
-                }
-                else
-                {
-                    @foreach (var types in ListOfTypes)
+                    @foreach (var types in ListOfTypes!)
                     {
                         <tr>
-                            <td></td>
+                            <td> </td>
                             <td>@types</td>
-                            <td></td>
+                            <td> </td>
                         </tr>
                     }
                 }
-            }
-        }
-        </tbody>
-    </table>
-
-    @if (RepoSha != null || RepoTag != null || XCorrelation != null)
-    {
-        <table class="table table-bordered table-sm mb-3">
-            <thead>
-            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                <td style="font-weight:bold;color:darkred;width:30%">Tech Info:</td>
-                <td></td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>repoSha:</td>
-                <td>@RepoSha</td>
-            </tr>
-            <tr>
-                <td>repoTag:</td>
-                <td>@RepoTag</td>
-            </tr>
-            <tr>
-                <td>x-Correlation:</td>
-                <td>@XCorrelation</td>
-            </tr>
-            </tbody>
-        </table>
-    }
-
-    @if (Requirement != null)
-    {
-        <table class="table table-bordered table-sm mb-3">
-            <thead>
-            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                <td style="font-weight:bold;color:darkred">Story/Task Requirements:</td>
-                <td style="font-weight: bold; width:80px">Status:</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var test in _requirements)
-            {
-                <tr>
-                    <td>@test.Description</td>
-                    <td></td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-
-    @if (_anyDependencySelected)
-    {
-        <table class="table table-bordered table-sm mb-3">
-            <thead>
-            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                <td style="font-weight:bold;color:darkred">Tested related features:</td>
-                <td style="font-weight:bold; width:80px">Status:</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var dep in Enum.GetValues<InternalDependencies>())
-            {
-                @if (dep != (_internalDependencies & dep))
+                else
                 {
-                    continue;
+                    @foreach (var browser in ListOfBrowsers)
+                    {
+                        <tr style="border-top-width:medium; border-top-color:darkgrey">
+                            <td style="font-weight:bold">
+                                <div class="d-flex align-items-center">
+                                    @switch (browser)
+                                    {
+                                        case var _ when browser.Contains("Chrome"):
+                                            <img src="/img/chrome-16.png" style="height:16px" alt="Chrome" />
+                                            break;
+                                        case var _ when browser.Contains("Edge"):
+                                            <img src="/img/edge-16.png" style="height:16px" alt="Edge" />
+                                            break;
+                                        case var _ when browser.Contains("Firefox"):
+                                            <img src="/img/firefox-16.png" style="height:15px" alt="Firefox" />
+                                            break;
+                                        case var _ when browser.Contains("Opera"):
+                                            <img src="/img/opera-16.png" style="height:16px" alt="Opera" />
+                                            break;
+                                        case var _ when browser.Contains("Safari"):
+                                            <img src="/img/safari-16.png" style="height:16px" alt="Safari" />
+                                            break;
+                                        case var _ when browser.Contains("Vivaldi"):
+                                            <img src="/img/vivaldi-16.png" style="height:16px" alt="Vivaldi" />
+                                            break;
+                                    }
+                                    <div class="ms-2">@browser</div>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td style="font-weight:bold; width:80px">Status:</td>
+                        </tr>
+                        @if (ListOfTypes!.Length == 1)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@ListOfTypes.FirstOrDefault()</td>
+                                <td></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var types in ListOfTypes)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@types</td>
+                                    <td></td>
+                                </tr>
+                            }
+                        }
+                    }
                 }
-                <tr>
-                    <td>@dep.GetDisplayName()</td>
-                    <td></td>
-                </tr>
-            }
             </tbody>
         </table>
-    }
-    
-    @if (OutOfScope != null)
-    {
-        <table class="table table-bordered table-sm mb-0">
-            <thead>
-            <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
-                <td style="font-weight:bold;color:darkred">Out of scope:</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var scope in _outOfScopeItems)
-            {
-                <tr>
-                    <td>@scope.Description</td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
 
-</section>
+        @if (RepoSha != null || RepoTag != null || XCorrelation != null)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred;width:30%">Tech Info:</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>repoSha:</td>
+                        <td>@RepoSha</td>
+                    </tr>
+                    <tr>
+                        <td>repoTag:</td>
+                        <td>@RepoTag</td>
+                    </tr>
+                    <tr>
+                        <td>x-Correlation:</td>
+                        <td>@XCorrelation</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (Requirement != null)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Story/Task Requirements:</td>
+                        <td style="font-weight: bold; width:80px">Status:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var test in _requirements)
+                    {
+                        <tr>
+                            <td>@test.Description</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (_anyDependencySelected)
+        {
+            <table class="table table-bordered table-sm mb-3">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Tested related features:</td>
+                        <td style="font-weight:bold; width:80px">Status:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dep in Enum.GetValues<InternalDependencies>())
+                    {
+                        @if (dep != (_internalDependencies & dep))
+                        {
+                            continue;
+                        }
+                        <tr>
+                            <td>@dep.GetDisplayName()</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (OutOfScope != null)
+        {
+            <table class="table table-bordered table-sm mb-0">
+                <thead>
+                    <tr style="border-bottom-width:medium; border-bottom-color:darkgrey">
+                        <td style="font-weight:bold;color:darkred">Out of scope:</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var scope in _outOfScopeItems)
+                    {
+                        <tr>
+                            <td>@scope.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </section>
 
 </div>
 
@@ -594,7 +591,7 @@
     <div>Now, paste it into your Jira comment. Thank you for using TPB.</div>
 </div>
 
-@code{
+@code {
     readonly int _browsersLength = Enum.GetValues<Browsers>().Length;
     readonly int _methodsLength = Enum.GetValues<Methods>().Length;
     readonly int _environmentsLength = Enum.GetValues<Environments>().Length;
@@ -700,16 +697,6 @@
         SelectedDatasources = (string[]?)e.Value;
     }
 
-    private void AddBrowsers()
-    {
-        ListOfBrowsers = SelectedBrowsers;
-    }
-
-    private void AddMethods()
-    {
-        ListOfMethods = SelectedMethods;
-    }
-
     private void AddEnvironments()
     {
         ListOfEnvironments = SelectedEnvironments;
@@ -717,20 +704,11 @@
         _dateString = _actualDate.ToString("dd-MM-yyyy, HH:mm");
     }
 
-    private void AddComponents()
-    {
-        ListOfComponents = SelectedComponents;
-    }
-
-    private void AddTypes()
-    {
-        ListOfTypes = SelectedTypes;
-    }
-
-    private void AddDatasources()
-    {
-        ListOfDatasources = SelectedDatasources;
-    }
+    private void AddMethods() => ListOfMethods = SelectedMethods;
+    private void AddBrowsers() => ListOfBrowsers = SelectedBrowsers;
+    private void AddComponents() => ListOfComponents = SelectedComponents;
+    private void AddTypes() => ListOfTypes = SelectedTypes;
+    private void AddDatasources() => ListOfDatasources = SelectedDatasources;
 
     private InternalDependencies _internalDependencies;
     bool _anyDependencySelected;
